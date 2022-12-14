@@ -1,5 +1,4 @@
 const path = require('path');
-const srcDir = path.resolve(__dirname, 'src');
 const outDir = path.resolve(__dirname, 'dist');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -10,7 +9,6 @@ module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js',
-        todo: './src/todo.js'
     },
     devtool: 'inline-source-map',
     devServer: {

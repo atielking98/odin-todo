@@ -1,0 +1,120 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --dark-gray: #e5e5e5;
+    --light-gray: #f8f8f8;
+}
+
+
+.content {
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 5px dotted black;
+    width: 100%;
+    padding: 1rem;
+    background-color: rgb(181, 217, 229);
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding: 1rem;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1rem;
+    gap: 8px;
+}
+
+
+.task-container {
+    border-left: 5px dotted black
+}
+
+.menu button {
+    font-size: 1rem;
+}
+
+.project-section-title {
+    font-size: 1.25rem;
+    padding: .5rem;
+    margin-bottom: 1rem;
+    border-bottom: thin solid #222;
+}
+
+.priority-legend > * {
+    padding: 4px 8px;
+}
+
+.low {
+    background-color: lightgreen;
+}
+
+button {
+    cursor: pointer;
+    background-color: transparent;
+    cursor:  pointer;
+    border: none;
+    outline: none;
+}
+
+.left button {
+  padding-right: 8px;  
+}
+
+.task-container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.task-container .createTask {
+    height: max-content;
+    width: 60%;
+    padding: 1rem;
+    margin-top: 2rem;
+    background-color: var(--dark-gray);
+    border-radius: 1rem;
+    transition: all .5s ease;
+}
+
+.task-container .btn i {
+    transition: all .5s ease;
+}
+
+.task-container .btn:hover i {
+    transform: rotate(180deg);
+    background-color: var(--main-color);
+    color: #fff;
+    padding: .2rem;
+    border-radius: 50%;
+}
+
+.task-container.active #add-task {
+    display: none;
+}
+
+
+.medium {
+    background-color: yellow;
+}
+
+.high {
+    background-color: rgba(244, 107, 107, 0.893);
+}

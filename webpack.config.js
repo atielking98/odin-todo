@@ -1,10 +1,16 @@
 const path = require('path');
+const srcDir = path.resolve(__dirname, 'src');
+const outDir = path.resolve(__dirname, 'dist');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+
 
 module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js',
+        todo: './src/todo.js'
     },
     devtool: 'inline-source-map',
     devServer: {
@@ -13,11 +19,14 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Tasky',
+            filename: "index.html",
+            publicPath: './'
         }),
+        new FaviconsWebpackPlugin('./src/favicon.png')
       ],
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: outDir,
     clean: true,
   },
   module: {
@@ -27,7 +36,7 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
      {
-       test: /\.(png|svg|jpg|jpeg|gif)$/i,
+       test: /\.(ico|png|svg|jpg|jpeg|gif)$/i,
        type: 'asset/resource',
      },
     ],

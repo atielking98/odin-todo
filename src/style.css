@@ -33,21 +33,22 @@
     padding: 1rem;
 }
 
-.menu {
+#sidebar {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    font-size: 1rem;
     gap: 8px;
+    border-right: 5px dotted black;
+    transition: 200ms ease;
 }
 
-
-.task-container {
-    border-left: 5px dotted black
-}
-
-.menu button {
+#sidebar button {
     font-size: 1rem;
+}
+
+#sidebar.collapsed {
+    transform: translateX(-100%);
+    transition: 200ms ease;
 }
 
 .project-section-title {
@@ -92,7 +93,9 @@ button {
     background-color: var(--dark-gray);
     border-radius: 1rem;
     transition: all .5s ease;
+    font-size: 1rem;
 }
+
 
 .task-container .btn i {
     transition: all .5s ease;
@@ -118,3 +121,13 @@ button {
 .high {
     background-color: rgba(244, 107, 107, 0.893);
 }
+
+svg {
+    pointer-events: none
+  }
+
+.fas {
+    pointer-events: none;
+}
+
+ 

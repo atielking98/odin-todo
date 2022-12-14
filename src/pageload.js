@@ -1,4 +1,4 @@
-export default function pageLoad() {
+export default function initialPageLoad() {
     console.log('I get called from page-load.js!');
     const content = document.createElement('div');
     content.className = 'content';
@@ -31,7 +31,7 @@ export default function pageLoad() {
     const main = document.createElement('div');
     main.className = 'main';
     main.innerHTML = `
-    <div class="menu">
+    <div id="sidebar">
         <button class="btn active" id="inbox"><i class="fas fa-inbox fa-fw"></i>&nbsp; Inbox</button>
         <button class="btn" id="today"><i class="fas fa-calendar-day fa-fw"></i>&nbsp; Today</button>
         <button class="btn" id="week"><i class="fas fa-calendar-week fa-fw"></i>&nbsp; Upcoming</button>

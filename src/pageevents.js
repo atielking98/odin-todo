@@ -12,6 +12,14 @@ export default function domEvents() {
     console.log("hi");
     d.addEventListener('click', (e) => {
         console.log(e.target);
+
+        // Click on sidebar icon, toggles collapsing sidebar
+        if (e.target.matches('.sidebar-btn')) {
+            console.log("hi");
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+        
         // Display add task form
         // Cancel add task form
         // Submit add task form
@@ -25,6 +33,5 @@ export default function domEvents() {
         // Click on today
         // Click on upcoming
         // Click on home
-        // Click on sidebar icon
     })
 }

@@ -86,7 +86,7 @@
 #sidebar .btn {
     display: flex;
     justify-content: start;
-    padding: .25rem;
+    padding: .5rem;
     margin-bottom: 0.25rem;
     border-radius: 1rem;
     transition: all .3s ease;
@@ -294,9 +294,16 @@ svg {
     visibility: visible;
     background-color: inherit;
 }
-.btn-expand-task i{
+.btn-expand-task {
     transition: transform .3s ease;
 }
-.card.show .btn-expand-task i{
+.card.show .btn-expand-task {
     transform: rotate(180deg);
+}
+
+.card.checked {
+    opacity: .6;
+}
+.card.checked .task-title{
+    text-decoration: line-through;
 }

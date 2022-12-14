@@ -2,6 +2,8 @@ import {Task} from './todo';
 import {Projects} from './projects';
 
 const d = document;
+let editing = false;
+let isTaskChecked = false;
 
 export class UI {
     // PROJECTS
@@ -93,6 +95,11 @@ export class UI {
         const projectBtn = d.getElementById('add-task');
         const form = d.getElementsByClassName('form-task')[0];
         form.remove();
+        if(editing) {
+            d.querySelector('.card.editing').remove();
+            isTaskChecked = false;
+            editing = false;
+        }
         projectBtn.classList.remove('none');
     }
 
@@ -112,11 +119,18 @@ export class UI {
             <div class="card-hidden">
                 <h3 class="task-el task-project" name="project">Project: <b>${item._project}</b></h3>
                 <h3 class="task-el task-priority" name="priority">Priority: <b>${item._priority}</b></h3>
-                <button class="btn-task btn-edit"><i class="fas fa-edit"></i></button>
+                <button class="btn-task btn-edit-task"><i class="fas fa-edit"></i></button>
             </div>
         `;
         taskCard.classList.add('card', item._priority);
-
+        if(editing) {
+            d.querySelector('.card.editing').remove();
+            if (isTaskChecked) {
+                taskCard.classList.add('checked');
+                isTaskChecked = false;
+            }
+            editing = false;
+        }
         taskContainer.appendChild(taskCard);
         this.removeTaskForm();
         const btn = d.getElementById('add-task');
@@ -125,6 +139,24 @@ export class UI {
 
     deleteTask(task) {
         task.parentElement.parentElement.parentElement.remove();
+    }
+
+    editTask(task) {
+        this.removeTaskForm();
+        task.classList.add('editing');
+        editing = true;
+        this.createTaskForm();
+        // Grab current task values
+        const title = task.children[0].children.name.textContent;
+        const dueDate = task.children[0].children.date.textContent;
+        const project = task.children[1].children.project.firstElementChild.textContent;
+        const priority = task.children[1].children.priority.firstElementChild.textContent;
+        // Populate task form with current task values
+        d.getElementById('title').value = title;
+        d.getElementById('dueDate').value = dueDate;
+        d.getElementById('projectSelect').value = project;
+        d.getElementById('prioritySelect').value = priority;
+        task.style.display = "none";
     }
 
     // FORMS
@@ -216,6 +248,11 @@ export default function domEvents() {
         }
 
         // Expand a task
+        if (e.target.matches('.btn-expand-task')) {
+            console.log("expand selected task");
+            console.log(e.target.parentElement.parentElement.parentElement);
+            e.target.parentElement.parentElement.parentElement.classList.toggle('show')
+        }
 
         // Delete a task
         if (e.target.matches('.btn-delete-task')) {
@@ -224,6 +261,30 @@ export default function domEvents() {
         }
 
         // Edit a task
+        if (e.target.matches('.btn-edit-task')) {
+            console.log("edit selected task");
+            isTaskChecked = e.target.parentElement.parentElement.classList.contains('checked');
+            ui.editTask(e.target.parentElement.parentElement);
+        }
+
+        // Check off a task
+        if (e.target.matches('.check-btn')) {
+            console.log("check off selected task");
+            console.log(e.target.children[0].classList);
+            if(e.target.children[0].classList.contains('fa-circle')) {
+                console.log("hi");
+                e.target.children[0].classList.replace('fa-circle', 'fa-circle-check');
+                e.target.children[0].classList.add('fa-regular');
+                e.target.parentElement.parentElement.classList.add('checked');
+                return;
+            }
+            if(e.target.children[0].classList.contains('fa-circle-check')) {
+                e.target.children[0].classList.replace('fa-circle-check', 'fa-circle');
+                e.target.children[0].classList.add('fa-regular');
+                e.target.parentElement.parentElement.classList.remove('checked');
+                return;
+            }
+        }
 
         // Click on inbox
         // Click on today

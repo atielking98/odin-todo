@@ -7,7 +7,7 @@ export default function initialPageLoad() {
     const header = document.createElement('div');
     header.className = 'header';
     header.innerHTML = `
-    <div class ="left">
+    <div id ="left">
         <h2>Tasky</h2>
         <button class="sidebar-btn">
             <i class="fas fa-bars"></i>
@@ -16,8 +16,8 @@ export default function initialPageLoad() {
             <i class="fas fa-home"></i>
         </button>
     </div>
-    <div class = "middle"><h1>Inbox</h1></div>
-    <div class = "right">
+    <div id = "middle"><h1>Inbox</h1></div>
+    <div id = "right">
         <div class = "priority-legend">
             <div class="low">Low</div>
             <div class="medium">Medium</div>

@@ -51,6 +51,15 @@ export class UI {
     }
 
     deleteProject(project) {
+        // Delete all tasks for this project
+        const tasks = document.querySelectorAll('#cards .card .task-project');
+        Array.from(tasks).forEach(task => {
+            if(task.children[0].textContent.trim() === project.parentElement.textContent.trim()) {
+                task.parentElement.parentElement.remove()
+            }
+        })
+
+        // Delete actual project
         project.parentElement.remove();
     }
 
@@ -169,7 +178,56 @@ export class UI {
         }
     }
 
+    removeTaskFormBtn() {
+        const container = d.getElementById('task-container');
+        container.classList.add('active')
+    }
 
+    showTaskFormBtn() {
+        const container = d.getElementById('task-container');
+        container.classList.remove('active')
+    }
+
+    // PROJECT VIEWS
+    goToToday() {
+        const middleHeader = d.getElementById('middle');
+        middleHeader.innerHTML = "<h1>Today's Tasks</h1>";
+        this.changeActive(d.querySelector('#today'));
+        // TODO: Update main contents
+        this.removeTaskForm();
+        this.removeTaskFormBtn();
+    }
+
+    goToWeek() {
+        const middleHeader = d.getElementById('middle');
+        middleHeader.innerHTML = "<h1>This Week's Tasks</h1>";
+        this.changeActive(d.querySelector('#week'));
+        // TODO: Update main contents
+        this.removeTaskForm();
+        this.removeTaskFormBtn();
+    }
+
+    goToInbox() {
+        const middleHeader = d.getElementById('middle');
+        middleHeader.innerHTML = "<h1>Inbox</h1>";
+        this.changeActive(d.querySelector('#inbox'));
+        // TODO: Update main contents
+        this.showTaskFormBtn();
+    }
+
+    goToProject(project) {
+        const middleHeader = d.getElementById('middle');
+        middleHeader.innerHTML = `<h1>Project <i>${project.textContent.trim()}</i>'s Tasks</h1>`;
+        this.changeActive(project);
+        // TODO: Update main contents
+        this.removeTaskForm();
+        this.removeTaskFormBtn();
+    }
+
+    changeActive(item) {
+        d.querySelector('#sidebar .btn.active').classList.remove('active');
+        item.classList.add('active');
+    }
 }
 
 export default function domEvents() {
@@ -286,10 +344,25 @@ export default function domEvents() {
             }
         }
 
-        // Click on inbox
         // Click on today
+        if (e.target.matches('#today')) {
+            console.log("showing tasks due today");
+            ui.goToToday();
+        }
         // Click on upcoming
-        // Click on home
+        if (e.target.matches('#week')) {
+            console.log("showing tasks due this week");
+            ui.goToWeek();
+        }
+        // Click on home or inbox
+        if (e.target.matches('#inbox') || e.target.matches('.home-btn')) {
+            console.log("showing tasks in inbox");
+            ui.goToInbox();
+        }
         // Click on other project
+        if (e.target.matches('.project')) {
+            console.log("showing tasks for project");
+            ui.goToProject(e.target);
+        }
     })
 }

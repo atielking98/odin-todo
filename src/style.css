@@ -62,7 +62,7 @@
 .main {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    padding: 1rem;
+    padding: 1rem 0rem 1rem 1rem;
 }
 
 #sidebar {
@@ -129,12 +129,12 @@ button {
     outline: none;
 }
 
-.left button {
+#left button {
   padding-right: 8px;  
 }
 
 .task-container {
-    padding: 1rem;
+    margin: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;

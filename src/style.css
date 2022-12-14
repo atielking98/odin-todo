@@ -7,6 +7,7 @@
 :root {
     --dark-gray: #e5e5e5;
     --light-gray: #f8f8f8;
+    --main-color: lightblue;
 }
 
 .none {
@@ -100,7 +101,7 @@
 }
 
 .btn-project {
-    background-color: lightblue;
+    background-color: var(--main-color);
     padding: .25rem;
     margin: .25rem .25rem 0 0;
 }
@@ -109,7 +110,7 @@
     font-size: 1.25rem;
     padding: .5rem;
     margin-bottom: 1rem;
-    border-bottom: thin solid #222;
+    border-bottom: thin dotted #222;
 }
 
 .priority-legend > * {
@@ -167,6 +168,48 @@ button {
     display: none;
 }
 
+.form-task {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 1rem;
+    border: thin dotted var(--dark-gray);
+    border-radius: 1rem;
+}
+
+.form-task div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+}
+.form-task div:nth-child(1) {
+    margin-bottom: .5rem;
+}
+.form-task input {
+    padding: .5rem;
+    flex: 1;
+    border-bottom: 1px solid #222;
+    margin-right: .5rem;
+}
+
+.form-task select {
+    border-bottom: 1px solid #222;
+}
+.form-task input, .form-task select, .form-project input {
+    border: none;
+    outline: none;
+    padding: .2rem;
+}
+
+.form-task .btn, .form-project button {
+    padding: .5rem;
+    margin: .25rem .25rem 0 0;
+    background-color: var(--main-color);
+    color: white;
+    border-radius: 0.5rem;
+}
+
 .active {
     background-color: #e1e1e1;
 }
@@ -188,3 +231,72 @@ svg {
 }
 
  
+/* CARDS */
+.cards {
+    width: 100%;
+}
+.card {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 1rem;
+    margin: 0 auto;
+    margin-top: 1rem;
+    width: 80%;
+    position: relative;
+    border: thin solid var(--dark-gray);
+    transition: all 0.5s ease;
+}
+.card h3 {
+    font-weight: normal;
+}
+
+.card-show {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: .5rem;
+}
+.card-show h3, .card-hidden h3 {
+    flex: 1;
+}
+.card-hidden button {
+    width: 10%;
+}
+.card-btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 10%;
+}
+
+.card-hidden {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: .5rem;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    transform: translateY(-50%);
+    opacity: 0;
+    visibility: hidden;
+    background-color: transparent;
+    transition: transform .3s ease-in-out, opacity .3s ease, background-color .3s ease;
+}
+
+.card.show .card-hidden { 
+    transform: translateY(0);
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    background-color: inherit;
+}
+.btn-expand-task i{
+    transition: transform .3s ease;
+}
+.card.show .btn-expand-task i{
+    transform: rotate(180deg);
+}

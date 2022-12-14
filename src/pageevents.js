@@ -4,6 +4,7 @@ import {Projects} from './projects';
 const d = document;
 
 export class UI {
+    // PROJECTS
     createProjectForm() {
         const container = d.getElementById('sidebar');
         const btn = d.getElementById('create-new-project');
@@ -50,6 +51,92 @@ export class UI {
     deleteProject(project) {
         project.parentElement.remove();
     }
+
+    // TASKS
+    createTaskForm() {
+        const container = d.getElementById('task-container');
+        const btn = d.getElementById('add-task');
+        const form = d.createElement('form');
+        const select = d.createElement('select');
+        const options = ['Inbox', ...d.getElementById('projects-list').children];
+        options.forEach(op => {
+            const option = d.createElement('option')
+            option.value = op.textContent || op;
+            option.textContent = op.textContent || op;
+            select.appendChild(option);
+        })
+
+        form.innerHTML = `
+            <div>
+            <input type="text" id="title" placeholder="Task Info">
+            <input type="text" id="dueDate" placeholder="Schedule" onfocus="(this.type='date')" onblur="(this.type='text')">
+            <select id="projectSelect">
+            ${select.innerHTML}</select>
+            </div>
+            <div>
+            <select id="prioritySelect">
+                <option value="none">Select Priority</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button class="btn addTaskFormBtn" id="addTaskFormBtn">Add</button>
+            <button class="btn cancelTaskFormBtn" id="cancelTaskFormBtn">Cancel</button>
+            </div>
+        `;
+        form.classList.add('form-task');
+        btn.classList.add('none');
+        container.insertBefore(form, btn);
+    }
+
+    cancelTaskForm() {
+        const projectBtn = d.getElementById('add-task');
+        const form = d.getElementsByClassName('form-task')[0];
+        form.remove();
+        projectBtn.classList.remove('none');
+    }
+
+    addNewTask(item) {
+        const taskContainer = d.getElementById('cards');
+        const taskCard = d.createElement('div');
+        taskCard.innerHTML = `
+            <div class="card-show">
+                <button class="check-btn"><i class="far fa-circle fa-fw"></i></button>
+                <h3 class="task-el task-title" name="name">&nbsp;${item._title}</h3>
+                <h3 class="task-el task-date" name="date">${item._dueDate}</h3>
+            <div class="card-btns">
+                <button class="btn-task btn-expand-task"><i class="fas fa-angle-double-down"></i></button>
+                <button class="btn-task btn-delete-task"><i class="fas fa-trash-alt"></i></button>
+                </div>
+                </div>    
+            <div class="card-hidden">
+                <h3 class="task-el task-project" name="project">Project: <b>${item._project}</b></h3>
+                <h3 class="task-el task-priority" name="priority">Priority: <b>${item._priority}</b></h3>
+                <button class="btn-task btn-edit"><i class="fas fa-edit"></i></button>
+            </div>
+        `;
+        taskCard.classList.add('card', item._priority);
+
+        taskContainer.appendChild(taskCard);
+        this.removeTaskForm();
+        const btn = d.getElementById('add-task');
+        btn.classList.remove('none');
+    }
+
+    deleteTask(task) {
+        task.parentElement.parentElement.parentElement.remove();
+    }
+
+    // FORMS
+    removeTaskForm() {
+        const container = d.getElementById('task-container')
+        const form = d.querySelector('.form-task');
+        if(container.children[0] === form) {
+            container.classList.remove('active');
+            container.removeChild(form);
+        }
+    }
+
 
 }
 
@@ -99,13 +186,49 @@ export default function domEvents() {
         }
 
         // Display add task form
+        if (e.target.matches('#add-task')) {
+            console.log("create new task form");
+            ui.createTaskForm();
+        }
+
         // Cancel add task form
+        if (e.target.matches('#cancelTaskFormBtn')) {
+            console.log("cancel new task form");
+            ui.cancelTaskForm();
+        }
+
         // Submit add task form
-        // Delete task
-        // Edit task
+        if (e.target.matches('#addTaskFormBtn')) {
+            console.log("add new task");
+            e.preventDefault();
+            const form = d.querySelector('.form-task');
+            const title = form.title.value;
+            let dueDate = form.dueDate.value;
+            const project = document.getElementById('projectSelect').value;
+            const priority = document.getElementById('prioritySelect').value;
+            if(title === "") return console.log('Task title can not be blank');
+            if(dueDate === "") dueDate = 'No due date';
+            const task = new Task(title, dueDate, project, priority);
+            
+            console.log(form);
+            console.log(task);
+            ui.addNewTask(task);
+        }
+
+        // Expand a task
+
+        // Delete a task
+        if (e.target.matches('.btn-delete-task')) {
+            console.log("delete selected task");
+            ui.deleteTask(e.target);
+        }
+
+        // Edit a task
+
         // Click on inbox
         // Click on today
         // Click on upcoming
         // Click on home
+        // Click on other project
     })
 }

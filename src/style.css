@@ -9,6 +9,37 @@
     --light-gray: #f8f8f8;
 }
 
+.none {
+    display: none;
+}
+
+.project {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#projects-list {
+    padding: 0 2rem;
+    width: 100%;
+}
+
+.btn-delete-project {
+    margin-left: auto;
+}
+
+.btn-task, .btn-delete-project {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 2rem;
+}
 
 .content {
     display: grid;
@@ -49,6 +80,29 @@
 #sidebar.collapsed {
     transform: translateX(-100%);
     transition: 200ms ease;
+}
+
+#sidebar .btn {
+    display: flex;
+    justify-content: start;
+    padding: .25rem;
+    margin-bottom: 0.25rem;
+    border-radius: 1rem;
+    transition: all .3s ease;
+}
+
+#sidebar .btn:first-child {
+    margin-top: 1rem;
+}
+
+#sidebar .btn:hover, .menu .btn.active {
+    background-color: #e1e1e1;
+}
+
+.btn-project {
+    background-color: lightblue;
+    padding: .25rem;
+    margin: .25rem .25rem 0 0;
 }
 
 .project-section-title {
@@ -113,6 +167,9 @@ button {
     display: none;
 }
 
+.active {
+    background-color: #e1e1e1;
+}
 
 .medium {
     background-color: yellow;

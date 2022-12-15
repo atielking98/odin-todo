@@ -4,14 +4,14 @@ import { Task } from './todo.js';
 import pageLoad from './pageload.js';
 import domEvents from './pageevents.js';
 import './style.css';
-import { getTasks } from './localstorage.js';
+import { getProjects, getTasks } from './localstorage.js';
 
 window.addEventListener('DOMContentLoaded', () => {
     getTasks();
+    getProjects();
 });
 
 document.addEventListener('DOMContentLoaded', (e) => {
     pageLoad();
     domEvents();
-    console.log(new Task("hi"));
 });

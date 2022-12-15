@@ -1,5 +1,5 @@
 import { UI } from './pageevents'
-import { Projects } from './projects'
+
 const saveTaskToLocalStorage = (task) => {
     let tasks;
     if(localStorage.getItem('tasks') === null) {
@@ -7,8 +7,25 @@ const saveTaskToLocalStorage = (task) => {
     } else {    
         tasks = JSON.parse(localStorage.getItem('tasks'))   
     }
-    tasks.push(task);
+    console.log(tasks);
+    console.log(task);
+    const found = tasks.some(el => el._title === task._title);
+    console.log(found);
+    if (!found) tasks.push(task);
     localStorage.setItem('tasks', JSON.stringify(tasks))
+}
+
+const saveProjectToLocalStorage = (project) => {
+    let projects;
+    if(localStorage.getItem('projects') === null) {
+        projects = [];
+    } else {    
+        projects = JSON.parse(localStorage.getItem('projects'))   
+    }
+    console.log(projects);
+    const found = projects.some(el => el._title === project._title);
+    if (!found) projects.push(project);
+    localStorage.setItem('projects', JSON.stringify(projects))
 }
 
 const getTasks = () => {
@@ -21,25 +38,53 @@ const getTasks = () => {
     const ui = new UI();
     tasks.forEach(task => {
         ui.addNewTask(task)
-        const project = new Projects(task._project);
-        ui.addNewProject(project);
     })
 }
 
-const clearLocalStorage = (task) => {
+const getProjects = () => {
+    let projects;
+    if(localStorage.getItem('projects') === null) {
+        projects = [];
+    } else {
+        projects = JSON.parse(localStorage.getItem('projects'));
+    }
+    const ui = new UI();
+    projects.forEach(project => {
+        ui.addNewProject(project)
+    })
+}
+
+
+const clearLocalStorageTask = (taskBtn) => {
     let tasks;
     if(localStorage.getItem('tasks') === null) {
         tasks = [];
     } else {  
         tasks = JSON.parse(localStorage.getItem('tasks'))
     }
-    let index = task.parentElement.parentElement.children[1].textContent;
-    for(let x in tasks) {
-        if(tasks[x]._title === index) {
-            tasks.splice(x,1)
-        }
-    }
+    let taskTitle = taskBtn.parentElement.parentElement.children[1].textContent.trim();
+    tasks = tasks.filter(curr => {
+        return curr._title !== taskTitle;
+      });
     localStorage.setItem('tasks', JSON.stringify(tasks))
 }
 
-export {saveTaskToLocalStorage, getTasks, clearLocalStorage}
+const clearLocalStorageProject = (projectBtn) => {
+    let projects;
+    if(localStorage.getItem('projects') === null) {
+        projects = [];
+    } else {  
+        projects = JSON.parse(localStorage.getItem('projects'))
+    }
+    console.log("testing");
+    let project = projectBtn.parentElement;
+    console.log(project);
+    console.log(projects);
+    projects = projects.filter(curr => {
+        return curr._title !== project.textContent.trim();
+      });
+    console.log(projects);
+    localStorage.setItem('projects', JSON.stringify(projects))
+}
+
+export {saveTaskToLocalStorage, saveProjectToLocalStorage, getTasks, getProjects, clearLocalStorageTask, clearLocalStorageProject}

@@ -1,7 +1,7 @@
 import {Task} from './todo';
 import {Projects} from './projects';
 import { filterByProject, showAll, thisDay, thisWeek } from './taskfilter';
-import {saveTaskToLocalStorage, clearLocalStorage} from './localstorage'
+import {saveTaskToLocalStorage, saveProjectToLocalStorage, clearLocalStorageTask, clearLocalStorageProject} from './localstorage'
 
 
 const d = document;
@@ -51,6 +51,7 @@ export class UI {
             form.remove();
         }
         btn.classList.remove('none');
+        saveProjectToLocalStorage(item);
     }
 
     deleteProject(project) {
@@ -64,6 +65,7 @@ export class UI {
 
         // Delete actual project
         project.parentElement.remove();
+        clearLocalStorageProject(project);
     }
 
     // TASKS
@@ -152,7 +154,7 @@ export class UI {
 
     deleteTask(task) {
         task.parentElement.parentElement.parentElement.remove();
-        clearLocalStorage(task);
+        clearLocalStorageTask(task);
     }
 
     editTask(task) {

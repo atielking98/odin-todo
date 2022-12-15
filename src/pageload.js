@@ -50,6 +50,4 @@ export default function initialPageLoad() {
     content.appendChild(header);
     content.appendChild(main);
     document.body.appendChild(content);
-
-    console.log("Done adding stuff");
 }

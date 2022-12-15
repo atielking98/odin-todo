@@ -1,5 +1,8 @@
 import {Task} from './todo';
 import {Projects} from './projects';
+import { filterByProject, showAll, thisDay, thisWeek } from './taskfilter';
+import {saveTaskToLocalStorage, clearLocalStorage} from './localstorage'
+
 
 const d = document;
 let editing = false;
@@ -144,10 +147,12 @@ export class UI {
         this.removeTaskForm();
         const btn = d.getElementById('add-task');
         btn.classList.remove('none');
+        saveTaskToLocalStorage(item);
     }
 
     deleteTask(task) {
         task.parentElement.parentElement.parentElement.remove();
+        clearLocalStorage(task);
     }
 
     editTask(task) {
@@ -193,35 +198,35 @@ export class UI {
         const middleHeader = d.getElementById('middle');
         middleHeader.innerHTML = "<h1>Today's Tasks</h1>";
         this.changeActive(d.querySelector('#today'));
-        // TODO: Update main contents
         this.removeTaskForm();
         this.removeTaskFormBtn();
+        thisDay();
     }
 
     goToWeek() {
         const middleHeader = d.getElementById('middle');
         middleHeader.innerHTML = "<h1>This Week's Tasks</h1>";
         this.changeActive(d.querySelector('#week'));
-        // TODO: Update main contents
         this.removeTaskForm();
         this.removeTaskFormBtn();
+        thisWeek();
     }
 
     goToInbox() {
         const middleHeader = d.getElementById('middle');
         middleHeader.innerHTML = "<h1>Inbox</h1>";
         this.changeActive(d.querySelector('#inbox'));
-        // TODO: Update main contents
         this.showTaskFormBtn();
+        showAll();
     }
 
     goToProject(project) {
         const middleHeader = d.getElementById('middle');
         middleHeader.innerHTML = `<h1>Project <i>${project.textContent.trim()}</i>'s Tasks</h1>`;
         this.changeActive(project);
-        // TODO: Update main contents
         this.removeTaskForm();
         this.removeTaskFormBtn();
+        filterByProject(project);
     }
 
     changeActive(item) {

@@ -4,6 +4,11 @@ import { Task } from './todo.js';
 import pageLoad from './pageload.js';
 import domEvents from './pageevents.js';
 import './style.css';
+import { getTasks } from './localstorage.js';
+
+window.addEventListener('DOMContentLoaded', () => {
+    getTasks();
+});
 
 document.addEventListener('DOMContentLoaded', (e) => {
     pageLoad();

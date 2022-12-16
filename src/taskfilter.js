@@ -1,4 +1,4 @@
-import { toDate, isToday, isThisWeek, subDays, compareAsc } from 'date-fns'
+import { isThisWeek } from 'date-fns'
 
 const thisWeek = () => {
     const tasks = document.querySelectorAll('#cards .card .task-date');
@@ -15,8 +15,9 @@ const thisDay = () => {
     const tasks = document.querySelectorAll('#cards .card .task-date');
     Array.from(tasks).forEach(task => {
         task.parentElement.parentElement.style.display = "flex";
-        // TODO: fix for time zone
-        let result = isToday(new Date(task.textContent));
+        let [,,taskDate] = task.textContent.split('-');
+        let todayDay = new Date().getDate().toString();
+        let result = todayDay === taskDate;
         if (!result) {
             task.parentElement.parentElement.style.display = "none";
         }

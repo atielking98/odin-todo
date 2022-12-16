@@ -1,7 +1,7 @@
 import {Task} from './todo';
 import {Projects} from './projects';
 import { filterByProject, showAll, thisDay, thisWeek } from './taskfilter';
-import {saveTaskToLocalStorage, saveProjectToLocalStorage, clearLocalStorageTask, clearLocalStorageProject} from './localstorage'
+import {saveTaskToLocalStorage, saveProjectToLocalStorage, clearLocalStorageTask,} from './localstorage'
 
 
 const d = document;
@@ -65,7 +65,6 @@ export class UI {
 
         // Delete actual project
         project.parentElement.remove();
-        clearLocalStorageProject(project);
     }
 
     // TASKS
@@ -239,33 +238,26 @@ export class UI {
 
 export default function domEvents() {
     const ui = new UI();
-    console.log("hi");
     d.addEventListener('click', (e) => {
-        console.log(e.target);
-
         // Click on sidebar icon, toggles collapsing sidebar
         if (e.target.matches('.sidebar-btn')) {
-            console.log("toggle sidebar");
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('collapsed');
         }
 
         // Display create new project form
         if (e.target.matches('#create-new-project')) {
-            console.log("create new project form");
             ui.createProjectForm();
         }
 
         // Cancel add new project form
         if (e.target.matches('#cancel-project')) {
-            console.log("cancel new project");
             e.preventDefault();
             ui.cancelProjectForm();
         }
 
         // Submit add new projects form
         if (e.target.matches('#add-project')) {
-            console.log("add new project");
             e.preventDefault();
             const form = d.querySelector('.form-project');
             const title = form.name.value;
@@ -307,15 +299,12 @@ export default function domEvents() {
             if(dueDate === "") dueDate = 'No due date';
             const task = new Task(title, dueDate, project, priority);
             
-            console.log(form);
-            console.log(task);
             ui.addNewTask(task);
         }
 
         // Expand a task
         if (e.target.matches('.btn-expand-task')) {
             console.log("expand selected task");
-            console.log(e.target.parentElement.parentElement.parentElement);
             e.target.parentElement.parentElement.parentElement.classList.toggle('show')
         }
 
@@ -335,9 +324,7 @@ export default function domEvents() {
         // Check off a task
         if (e.target.matches('.check-btn')) {
             console.log("check off selected task");
-            console.log(e.target.children[0].classList);
             if(e.target.children[0].classList.contains('fa-circle')) {
-                console.log("hi");
                 e.target.children[0].classList.replace('fa-circle', 'fa-circle-check');
                 e.target.children[0].classList.add('fa-regular');
                 e.target.parentElement.parentElement.classList.add('checked');

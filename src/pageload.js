@@ -1,5 +1,4 @@
 export default function initialPageLoad() {
-    console.log('I get called from page-load.js!');
     const content = document.createElement('div');
     content.className = 'content';
 

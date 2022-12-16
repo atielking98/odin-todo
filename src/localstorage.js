@@ -7,10 +7,7 @@ const saveTaskToLocalStorage = (task) => {
     } else {    
         tasks = JSON.parse(localStorage.getItem('tasks'))   
     }
-    console.log(tasks);
-    console.log(task);
     const found = tasks.some(el => el._title === task._title);
-    console.log(found);
     if (!found) tasks.push(task);
     localStorage.setItem('tasks', JSON.stringify(tasks))
 }
@@ -76,14 +73,10 @@ const clearLocalStorageProject = (projectBtn) => {
     } else {  
         projects = JSON.parse(localStorage.getItem('projects'))
     }
-    console.log("testing");
     let project = projectBtn.parentElement;
-    console.log(project);
-    console.log(projects);
     projects = projects.filter(curr => {
         return curr._title !== project.textContent.trim();
       });
-    console.log(projects);
     localStorage.setItem('projects', JSON.stringify(projects))
 }
 

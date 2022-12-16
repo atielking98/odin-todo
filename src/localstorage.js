@@ -80,4 +80,21 @@ const clearLocalStorageProject = (projectBtn) => {
     localStorage.setItem('projects', JSON.stringify(projects))
 }
 
-export {saveTaskToLocalStorage, saveProjectToLocalStorage, getTasks, getProjects, clearLocalStorageTask, clearLocalStorageProject}
+const updateTaskCheckedStatus = (taskName, isChecked) => {
+    let tasks;
+    if(localStorage.getItem('tasks') === null) {
+        tasks = [];
+    } else {  
+        tasks = JSON.parse(localStorage.getItem('tasks'))
+    }
+    for (const task of tasks) {
+        if (task._title === taskName) {
+          console.log(task);
+          task._checked = isChecked;
+          break;
+        }
+    }
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+export {saveTaskToLocalStorage, saveProjectToLocalStorage, getTasks, getProjects, clearLocalStorageTask, clearLocalStorageProject, updateTaskCheckedStatus}

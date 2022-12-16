@@ -1,7 +1,7 @@
 import {Task} from './todo';
 import {Projects} from './projects';
 import { filterByProject, showAll, thisDay, thisWeek } from './taskfilter';
-import {saveTaskToLocalStorage, saveProjectToLocalStorage, clearLocalStorageTask, clearLocalStorageProject,} from './localstorage'
+import {updateTaskCheckedStatus, saveTaskToLocalStorage, saveProjectToLocalStorage, clearLocalStorageTask, clearLocalStorageProject,} from './localstorage'
 
 
 const d = document;
@@ -122,7 +122,7 @@ export class UI {
         const taskCard = d.createElement('div');
         taskCard.innerHTML = `
             <div class="card-show">
-                <button class="check-btn"><i class="far fa-circle fa-fw"></i></button>
+                <button class="check-btn"><i class="far ${item._checked ? 'fa-circle-check' : 'fa-circle'} fa-fw"></i></button>
                 <h3 class="task-el task-title" name="name">&nbsp;${item._title}</h3>
                 <h3 class="task-el task-date" name="date">${item._dueDate}</h3>
             <div class="card-btns">
@@ -137,6 +137,9 @@ export class UI {
             </div>
         `;
         taskCard.classList.add('card', item._priority);
+        if (item._checked) {
+            taskCard.classList.add('checked'); 
+        }
         if(editing) {
             d.querySelector('.card.editing').remove();
             if (isTaskChecked) {
@@ -299,7 +302,6 @@ export default function domEvents() {
             if(title === "") return console.log('Task title can not be blank');
             if(dueDate === "") dueDate = 'No due date';
             const task = new Task(title, dueDate, project, priority);
-            
             ui.addNewTask(task);
         }
 
@@ -325,16 +327,20 @@ export default function domEvents() {
         // Check off a task
         if (e.target.matches('.check-btn')) {
             console.log("check off selected task");
+            console.log(e.target.parentElement.children[1].textContent.trim());
+            let taskName = e.target.parentElement.children[1].textContent.trim();
             if(e.target.children[0].classList.contains('fa-circle')) {
                 e.target.children[0].classList.replace('fa-circle', 'fa-circle-check');
                 e.target.children[0].classList.add('fa-regular');
                 e.target.parentElement.parentElement.classList.add('checked');
+                updateTaskCheckedStatus(taskName, true);
                 return;
             }
             if(e.target.children[0].classList.contains('fa-circle-check')) {
                 e.target.children[0].classList.replace('fa-circle-check', 'fa-circle');
                 e.target.children[0].classList.add('fa-regular');
                 e.target.parentElement.parentElement.classList.remove('checked');
+                updateTaskCheckedStatus(taskName, false);
                 return;
             }
         }

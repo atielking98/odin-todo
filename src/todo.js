@@ -4,5 +4,10 @@ export class Task {
         this._dueDate = dueDate;
         this._project = project;
         this._priority = priority;
+        this._checked = false;
+    }
+
+    setChecked(val) {
+        this._checked = val;
     }
 }

@@ -12,6 +12,29 @@ const saveTaskToLocalStorage = (task) => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
 }
 
+const updateTaskToLocalStorage = (newTask, originalTitle) => {
+    let tasks;
+    if(localStorage.getItem('tasks') === null) {
+        tasks = [];
+    } else {    
+        tasks = JSON.parse(localStorage.getItem('tasks'))   
+    }
+    console.log(tasks);
+    console.log(newTask);
+    console.log(originalTitle);
+    for (const originalTask of tasks) {
+        if (originalTask._title.trim() === originalTitle.trim()) {
+            console.log('found original task');
+            originalTask._title = newTask._title;
+            originalTask._dueDate = newTask._dueDate;
+            originalTask._project = newTask._project;
+            originalTask._priority = newTask._priority;
+          break;
+        }
+    }
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+}
+
 const saveProjectToLocalStorage = (project) => {
     let projects;
     if(localStorage.getItem('projects') === null) {
@@ -88,7 +111,7 @@ const updateTaskCheckedStatus = (taskName, isChecked) => {
         tasks = JSON.parse(localStorage.getItem('tasks'))
     }
     for (const task of tasks) {
-        if (task._title === taskName) {
+        if (task._title.trim() === taskName.trim()) {
           console.log(task);
           task._checked = isChecked;
           break;
@@ -97,4 +120,4 @@ const updateTaskCheckedStatus = (taskName, isChecked) => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-export {saveTaskToLocalStorage, saveProjectToLocalStorage, getTasks, getProjects, clearLocalStorageTask, clearLocalStorageProject, updateTaskCheckedStatus}
+export {updateTaskToLocalStorage, saveTaskToLocalStorage, saveProjectToLocalStorage, getTasks, getProjects, clearLocalStorageTask, clearLocalStorageProject, updateTaskCheckedStatus}

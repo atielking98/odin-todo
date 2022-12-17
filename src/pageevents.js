@@ -1,11 +1,12 @@
 import {Task} from './todo';
 import {Projects} from './projects';
 import { filterByProject, showAll, thisDay, thisWeek } from './taskfilter';
-import {updateTaskCheckedStatus, saveTaskToLocalStorage, saveProjectToLocalStorage, clearLocalStorageTask, clearLocalStorageProject,} from './localstorage'
+import {updateTaskToLocalStorage, updateTaskCheckedStatus, saveTaskToLocalStorage, saveProjectToLocalStorage, clearLocalStorageTask, clearLocalStorageProject,} from './localstorage'
 
 
 const d = document;
 let editing = false;
+let originalTaskTitle = null;
 let isTaskChecked = false;
 
 export class UI {
@@ -112,6 +113,7 @@ export class UI {
         if(editing) {
             d.querySelector('.card.editing').remove();
             isTaskChecked = false;
+            originalTaskTitle = null;
             editing = false;
         }
         projectBtn.classList.remove('none');
@@ -146,13 +148,16 @@ export class UI {
                 taskCard.classList.add('checked');
                 isTaskChecked = false;
             }
+            updateTaskToLocalStorage(item, originalTaskTitle);
+            originalTaskTitle = null;
             editing = false;
+        } else {
+            saveTaskToLocalStorage(item);
         }
         taskContainer.appendChild(taskCard);
         this.removeTaskForm();
         const btn = d.getElementById('add-task');
         btn.classList.remove('none');
-        saveTaskToLocalStorage(item);
     }
 
     deleteTask(task) {
@@ -167,6 +172,7 @@ export class UI {
         this.createTaskForm();
         // Grab current task values
         const title = task.children[0].children.name.textContent;
+        originalTaskTitle = title;
         const dueDate = task.children[0].children.date.textContent;
         const project = task.children[1].children.project.firstElementChild.textContent;
         const priority = task.children[1].children.priority.firstElementChild.textContent;

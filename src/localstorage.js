@@ -84,9 +84,9 @@ const clearLocalStorageTask = (taskBtn) => {
     }
     let taskTitle = taskBtn.parentElement.parentElement.children[1].textContent.trim();
     tasks = tasks.filter(curr => {
-        return curr._title !== taskTitle;
+        return curr._title.trim() !== taskTitle.trim();
       });
-    localStorage.setItem('tasks', JSON.stringify(tasks))
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 const clearLocalStorageProject = (projectBtn) => {
